@@ -1,0 +1,12 @@
+/* Ensure the dropdown is visible even when the navbar is collapsed */
+@media (max-width: 992px) {
+    .navbar-collapse .dropdown-menu {
+      position: absolute;
+      top: 100%; /* Align the dropdown below the avatar */
+      right: 0;
+      left: auto;
+      z-index: 1050; /* Ensure it's above other navbar items */
+      width: auto; /* Let the dropdown adjust its width */
+    }
+  }
+  
