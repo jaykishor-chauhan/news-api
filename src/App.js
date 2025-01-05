@@ -11,16 +11,16 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(()=>{
-
     const fetchApi = async ()=>{
       try{
-        const url = 'https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=cf9155b13b86413b9b5fb98cb3811cc5';
+        const url = `https://newsapi.org/v2/everything?q=apple&sortBy=popularity&apiKey=cf9155b13b86413b9b5fb98cb3811cc5`;
         const response = await fetch(url);
         const result = await response.json();
         setArticles(result.articles);
-      }catch(error){
-        setError(error);
         setLoading(false);
+      }catch(error){
+        setLoading(false);
+        setError(error);
       }
     };
 
@@ -40,7 +40,7 @@ function App() {
           <Route path="/search" element={
             <>
             <Navbar />
-            <SearchNews />
+            <SearchNews/>
             </>
           }/>
         </Routes>

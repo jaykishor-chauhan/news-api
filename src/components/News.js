@@ -13,14 +13,16 @@ function News({ articles }) {
             <div className="col d-flex mb-4" key={key++}>
               <div className="card d-flex flex-column" style={{ width: '18rem' }}>
                 <img
-                  src={article.urlToImage !== null ? article.urlToImage : "https://evershineoptical.com.sg/wp-content/uploads/varilux-lens.png"}
+                  src={article.urlToImage ? article.urlToImage : "https://evershineoptical.com.sg/wp-content/uploads/varilux-lens.png"}
                   className="card-img-top"
                   alt={article.title}
                 />
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{article.title.slice(0, 60) !== '[Removed]' ? article.title:'Aritcle is not avilable'}...</h5>
+                  <h5 className="card-title">
+                    {article.title !== '[Removed]' ? article.title.slice(0,60):'Aritcle is not avilable'}...
+                  </h5>
                   <p className="card-text">
-                    {article.description.slice(0, 110) !== '[Removed]' ? article.description:''}...
+                    {article.description !== '[Removed]' ? (article.description?article.description.slice(0,110):''):''}...
                   </p>
                   <a
                     href={article.url}
