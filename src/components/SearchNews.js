@@ -25,8 +25,6 @@ function SearchNews() {
                     </form>
                 </div>
             </div>
-
-
             <div id="results" className="row">
                 <div className="col-md-12">
                     <h5 className="text-center text-muted">No results to display. Use the search bar to find news.</h5>
