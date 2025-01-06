@@ -1,48 +1,62 @@
 import './App.css';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar'
-import News from './components/News';
 import SearchNews from './components/SearchNews';
-import { useState, useEffect } from 'react';
+import NewsCard from './components/NewsCard';
+import TodayNews from './components/TodayNews';
 
 function App() {
-  const [articles, setArticles] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(()=>{
-    const fetchApi = async ()=>{
-      try{
-        const url = `https://newsapi.org/v2/everything?q=apple&sortBy=popularity&apiKey=cf9155b13b86413b9b5fb98cb3811cc5`;
-        const response = await fetch(url);
-        const result = await response.json();
-        setArticles(result.articles);
-        setLoading(false);
-      }catch(error){
-        setLoading(false);
-        setError(error);
-      }
+  const apiKey = 'cf9155b13b86413b9b5fb98cb3811cc5';
+  const [defaultArticle, setdefaultArticles] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const defultfetchApi = async () => {
+      const url = `https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${apiKey}`;
+      const response = await fetch(url);
+      const result = await response.json();
+
+      setdefaultArticles(result.articles);
+
     };
 
-    fetchApi();
+    defultfetchApi();
+
   }, [])
-  
+
+  const fetchApi = async (catogery, val) => {
+    setLoading(true);
+    const url = `https://newsapi.org/v2/${catogery}?${val}&apiKey=${apiKey}`;
+    const response = await fetch(url);
+    const result = await response.json();
+    setLoading(false);
+    return result.articles;
+  }
+
   return (
     <>
-    <Router>
+      <Router>
         <Routes>
           <Route path="/" element={
             <>
-            <Navbar />
-            <News articles={articles} />
+              <Navbar />
+              <NewsCard articles={defaultArticle} heading={'ApnaNews- Top headlines from TechCrunch'} />
             </>
-          }/>
-          <Route path="/search" element={
+          } />
+          <Route path="/top-business-headlines" element={
             <>
-            <Navbar />
-            <SearchNews/>
+              <Navbar />
+              <SearchNews loading={loading} api={fetchApi}/>
             </>
-          }/>
+          } />
+          <Route path="/top-daily-headlines" element={
+            <>
+              <Navbar />
+              <TodayNews loading={loading} api={fetchApi}/>
+            </>
+          } />
         </Routes>
       </Router>
     </>
