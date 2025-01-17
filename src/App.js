@@ -10,7 +10,6 @@ function App() {
 
   const apiKey = 'cf9155b13b86413b9b5fb98cb3811cc5';
   const [defaultArticle, setdefaultArticles] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const defultfetchApi = async () => {
@@ -27,11 +26,9 @@ function App() {
   }, [])
 
   const fetchApi = async (catogery, val) => {
-    setLoading(true);
     const url = `https://newsapi.org/v2/${catogery}?${val}&apiKey=${apiKey}`;
     const response = await fetch(url);
     const result = await response.json();
-    setLoading(false);
     return result.articles;
   }
 
@@ -48,13 +45,13 @@ function App() {
           <Route path="/top-business-headlines" element={
             <>
               <Navbar />
-              <SearchNews loading={loading} api={fetchApi}/>
+              <SearchNews api={fetchApi}/>
             </>
           } />
           <Route path="/top-daily-headlines" element={
             <>
               <Navbar />
-              <TodayNews loading={loading} api={fetchApi}/>
+              <TodayNews api={fetchApi}/>
             </>
           } />
         </Routes>
